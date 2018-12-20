@@ -4,3 +4,6 @@
 !/data/.gitkeep
 /results
 *.DS_Store
+__pycache__/
+.idea
+*.egg-info/
