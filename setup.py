@@ -6,7 +6,7 @@ setup(name='nerlogparser',
       long_description='Automatic log parser using named entity recognition in Python',
       classifiers=[
           'Development Status :: 2 - Pre-Alpha',
-          'License :: OSI Approved :: Apache License',
+          'License :: OSI Approved :: Apache Software License',
           'Programming Language :: Python :: 3.5',
       ],
       keywords='named entity recognition, log parser, log forensics',
