@@ -1,11 +1,10 @@
 import numpy as np
-import os
 import tensorflow as tf
 
 
-from .data_utils import minibatches, pad_sequences, get_chunks
-from .general_utils import Progbar
-from .base_model import BaseModel
+from nerlogparser.model.data_utils import minibatches, pad_sequences, get_chunks
+from nerlogparser.model.general_utils import Progbar
+from nerlogparser.model.base_model import BaseModel
 
 
 class NERModel(BaseModel):
@@ -15,7 +14,6 @@ class NERModel(BaseModel):
         super(NERModel, self).__init__(config)
         self.idx_to_tag = {idx: tag for tag, idx in
                            self.config.vocab_tags.items()}
-
 
     def add_placeholders(self):
         """Define placeholders = entries to computational graph"""
@@ -45,7 +43,6 @@ class NERModel(BaseModel):
         self.lr = tf.placeholder(dtype=tf.float32, shape=[],
                         name="lr")
 
-
     def get_feed_dict(self, words, labels=None, lr=None, dropout=None):
         """Given some data, pad it and build a feed dictionary
 
@@ -64,8 +61,7 @@ class NERModel(BaseModel):
         if self.config.use_chars:
             char_ids, word_ids = zip(*words)
             word_ids, sequence_lengths = pad_sequences(word_ids, 0)
-            char_ids, word_lengths = pad_sequences(char_ids, pad_tok=0,
-                nlevels=2)
+            char_ids, word_lengths = pad_sequences(char_ids, pad_tok=0, nlevels=2)
         else:
             word_ids, sequence_lengths = pad_sequences(words, 0)
 
@@ -91,7 +87,6 @@ class NERModel(BaseModel):
 
         return feed, sequence_lengths
 
-
     def add_word_embeddings_op(self):
         """Defines self.word_embeddings
 
@@ -114,8 +109,7 @@ class NERModel(BaseModel):
                         dtype=tf.float32,
                         trainable=self.config.train_embeddings)
 
-            word_embeddings = tf.nn.embedding_lookup(_word_embeddings,
-                    self.word_ids, name="word_embeddings")
+            word_embeddings = tf.nn.embedding_lookup(_word_embeddings, self.word_ids, name="word_embeddings")
 
         with tf.variable_scope("chars"):
             if self.config.use_chars:
@@ -151,8 +145,7 @@ class NERModel(BaseModel):
                         shape=[s[0], s[1], 2*self.config.hidden_size_char])
                 word_embeddings = tf.concat([word_embeddings, output], axis=-1)
 
-        self.word_embeddings =  tf.nn.dropout(word_embeddings, self.dropout)
-
+        self.word_embeddings = tf.nn.dropout(word_embeddings, self.dropout)
 
     def add_logits_op(self):
         """Defines self.logits
@@ -181,7 +174,6 @@ class NERModel(BaseModel):
             pred = tf.matmul(output, W) + b
             self.logits = tf.reshape(pred, [-1, nsteps, self.config.ntags])
 
-
     def add_pred_op(self):
         """Defines self.labels_pred
 
@@ -194,7 +186,6 @@ class NERModel(BaseModel):
         if not self.config.use_crf:
             self.labels_pred = tf.cast(tf.argmax(self.logits, axis=-1),
                     tf.int32)
-
 
     def add_loss_op(self):
         """Defines the loss"""
@@ -213,7 +204,6 @@ class NERModel(BaseModel):
         # for tensorboard
         tf.summary.scalar("loss", self.loss)
 
-
     def build(self):
         # NER specific functions
         self.add_placeholders()
@@ -226,7 +216,6 @@ class NERModel(BaseModel):
         self.add_train_op(self.config.lr_method, self.lr, self.loss,
                 self.config.clip)
         self.initialize_session() # now self.sess is defined and vars are init
-
 
     def predict_batch(self, words):
         """
@@ -259,7 +248,6 @@ class NERModel(BaseModel):
             labels_pred = self.sess.run(self.labels_pred, feed_dict=fd)
 
             return labels_pred, sequence_lengths
-
 
     def run_epoch(self, train, dev, epoch):
         """Performs one complete pass over the train set and evaluate on dev
@@ -299,7 +287,6 @@ class NERModel(BaseModel):
 
         return metrics["f1"]
 
-
     def run_evaluate(self, test):
         """Evaluates performance on test set
 
@@ -335,7 +322,6 @@ class NERModel(BaseModel):
         acc = np.mean(accs)
 
         return {"acc": 100*acc, "f1": 100*f1}
-
 
     def predict(self, words_raw):
         """Returns list of tags

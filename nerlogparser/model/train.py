@@ -1,6 +1,6 @@
-from model.data_utils import CoNLLDataset
-from model.ner_model import NERModel
-from model.config import Config
+from nerlogparser.model.data_utils import CoNLLDataset
+from nerlogparser.model.ner_model import NERModel
+from nerlogparser.model.config import Config
 
 
 def main():

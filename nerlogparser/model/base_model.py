@@ -18,13 +18,11 @@ class BaseModel(object):
         self.sess   = None
         self.saver  = None
 
-
     def reinitialize_weights(self, scope_name):
         """Reinitializes the weights of a given layer"""
         variables = tf.contrib.framework.get_variables(scope_name)
         init = tf.variables_initializer(variables)
         self.sess.run(init)
-
 
     def add_train_op(self, lr_method, lr, loss, clip=-1):
         """Defines self.train_op that performs an update on a batch
@@ -57,14 +55,12 @@ class BaseModel(object):
             else:
                 self.train_op = optimizer.minimize(loss)
 
-
     def initialize_session(self):
         """Defines self.sess and initialize the variables"""
         self.logger.info("Initializing tf session")
         self.sess = tf.Session()
         self.sess.run(tf.global_variables_initializer())
         self.saver = tf.train.Saver()
-
 
     def restore_session(self, dir_model):
         """Reload weights into session
@@ -77,18 +73,15 @@ class BaseModel(object):
         self.logger.info("Reloading the latest trained model...")
         self.saver.restore(self.sess, dir_model)
 
-
     def save_session(self):
         """Saves session = weights"""
         if not os.path.exists(self.config.dir_model):
             os.makedirs(self.config.dir_model)
         self.saver.save(self.sess, self.config.dir_model)
 
-
     def close_session(self):
         """Closes the session"""
         self.sess.close()
-
 
     def add_summary(self):
         """Defines variables for Tensorboard
@@ -100,7 +93,6 @@ class BaseModel(object):
         self.merged      = tf.summary.merge_all()
         self.file_writer = tf.summary.FileWriter(self.config.dir_output,
                 self.sess.graph)
-
 
     def train(self, train, dev):
         """Performs training with early stopping and lr exponential decay
@@ -133,7 +125,6 @@ class BaseModel(object):
                     self.logger.info("- early stopping {} epochs without "\
                             "improvement".format(nepoch_no_imprv))
                     break
-
 
     def evaluate(self, test):
         """Evaluate model on test set

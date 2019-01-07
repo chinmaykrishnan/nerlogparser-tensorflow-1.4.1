@@ -1,8 +1,8 @@
 import os
 
 
-from .general_utils import get_logger
-from .data_utils import get_trimmed_glove_vectors, load_vocab, \
+from nerlogparser.model.general_utils import get_logger
+from nerlogparser.model.data_utils import get_trimmed_glove_vectors, load_vocab, \
         get_processing_word
 
 
@@ -56,7 +56,8 @@ class Config():
 
 
     # general config
-    dir_output = "results/test/"
+    file_path = os.path.dirname(os.path.realpath(__file__))
+    dir_output = os.path.join(file_path, '..', "results/test/")
     dir_model  = dir_output + "model.weights/"
     path_log   = dir_output + "log.txt"
 
@@ -67,22 +68,22 @@ class Config():
     # glove files
     filename_glove = "data/glove.6B/glove.6B.{}d.txt".format(dim_word)
     # trimmed embeddings (created from glove_filename with build_data.py)
-    filename_trimmed = "data/glove.6B.{}d.trimmed.npz".format(dim_word)
+    filename_trimmed = os.path.join(file_path, '..', "data/glove.6B.{}d.trimmed.npz".format(dim_word))
     use_pretrained = True
 
     # dataset
-    # filename_dev = "data/coNLL/eng/eng.testa.iob"
-    # filename_test = "data/coNLL/eng/eng.testb.iob"
-    # filename_train = "data/coNLL/eng/eng.train.iob"
+    filename_dev = "data/conll/conll.dev.txt"
+    filename_test = "data/conll/conll.test.txt"
+    filename_train = "data/conll/conll.train.txt"
 
-    filename_dev = filename_test = filename_train = "data/test.txt" # test
+    # filename_dev = filename_test = filename_train = "data/test.txt" # test
 
     max_iter = None # if not None, max number of examples in Dataset
 
     # vocab (created from dataset with build_data.py)
-    filename_words = "data/words.txt"
-    filename_tags = "data/tags.txt"
-    filename_chars = "data/chars.txt"
+    filename_words = os.path.join(file_path, '..', "data/words.txt")
+    filename_tags = os.path.join(file_path, '..', "data/tags.txt")
+    filename_chars = os.path.join(file_path, '..', "data/chars.txt")
 
     # training
     train_embeddings = False
@@ -100,5 +101,7 @@ class Config():
     hidden_size_lstm = 300 # lstm on word embeddings
 
     # NOTE: if both chars and crf, only 1.6x slower on GPU
-    use_crf = True # if crf, training is 1.7x slower on CPU
+    use_crf = False # if crf, training is 1.7x slower on CPU
     use_chars = True # if char embedding, training is 3.5x slower on CPU
+
+    label_file = os.path.join(file_path, '..', "data/label.txt")

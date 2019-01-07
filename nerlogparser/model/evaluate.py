@@ -1,6 +1,6 @@
-from model.data_utils import CoNLLDataset
-from model.ner_model import NERModel
-from model.config import Config
+from nerlogparser.model.data_utils import CoNLLDataset
+from nerlogparser.model.ner_model import NERModel
+from nerlogparser.model.config import Config
 
 
 def align_data(data):
@@ -32,7 +32,6 @@ def align_data(data):
     return data_aligned
 
 
-
 def interactive_shell(model):
     """Creates interactive shell to play with model
 
@@ -47,13 +46,7 @@ You can enter a sentence like
 input> I love Paris""")
 
     while True:
-        try:
-            # for python 2
-            sentence = raw_input("input> ")
-        except NameError:
-            # for python 3
-            sentence = input("input> ")
-
+        sentence = input("input> ")
         words_raw = sentence.strip().split(" ")
 
         if words_raw == ["exit"]:
@@ -76,8 +69,8 @@ def main():
     model.restore_session(config.dir_model)
 
     # create dataset
-    test  = CoNLLDataset(config.filename_test, config.processing_word,
-                         config.processing_tag, config.max_iter)
+    test = CoNLLDataset(config.filename_test, config.processing_word,
+                        config.processing_tag, config.max_iter)
 
     # evaluate and interact
     model.evaluate(test)
