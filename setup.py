@@ -6,7 +6,7 @@ setup(name='nerlogparser',
       long_description='Automatic log parser using named entity recognition in Python',
       classifiers=[
           'Development Status :: 2 - Pre-Alpha',
-          'License :: OSI Approved :: MIT License',
+          'License :: OSI Approved :: Apache License',
           'Programming Language :: Python :: 3.5',
       ],
       keywords='named entity recognition, log parser, log forensics',
@@ -15,9 +15,14 @@ setup(name='nerlogparser',
       author_email='studiawan@gmail.com',
       license='Apache',
       packages=['nerlogparser'],
+      entry_points={
+          'console_scripts': [
+              'nerlogparser = nerlogparser.nerlogparser:main'
+          ],
+      },
       install_requires=[
-	'tensorflow',
-	'logging'
+          'tensorflow==1.4.1',
+          'nltk'
       ],
       include_package_data=True,
       zip_safe=False)
