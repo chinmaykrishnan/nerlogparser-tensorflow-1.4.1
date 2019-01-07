@@ -10,33 +10,33 @@ This is source code implementation of our paper entitled ["Automatic log parser 
 ## How to install
 1. Create a new directory for `nerlogparser` in your home directory
 
-`mkdir $HOME/nerlogparser`
+   `mkdir $HOME/nerlogparser`
 
 2. Create virtual environment in newly created directory with specific Python version (3.5)
 
-`virtualenv $HOME/nerlogparser -p /usr/bin/python3.5`
+   `virtualenv $HOME/nerlogparser -p /usr/bin/python3.5`
 
 3. Activate the virtual environment
 
-`source $HOME/nerlogparser/bin/activate`
+   `source $HOME/nerlogparser/bin/activate`
 
 4. Install `nerlogparser`
 
-`pip install nerlogparser`
+   `pip install nerlogparser`
 
 ## How to run
 1. Make sure your are still in the virtual environment mode
 2. For example, run `nerlogparser` to parse authentication log file from `/var/log/auth.log` and print output to the screen
 
-`nerlogparser -i /var/log/auth.log`
+   `nerlogparser -i /var/log/auth.log`
 
 3. We can save parsing results in an output file such as `parsed-auth.json`. At the moment, the only supported file output format is JSON.
 
-`nerlogparser -i /var/log/auth.log -o parsed-auth.json`
+   `nerlogparser -i /var/log/auth.log -o parsed-auth.json`
 
 4. Run `nerlogpaser` help
 
-`nerlogparser -h`
+   `nerlogparser -h`
 
 ## Import from your Python script
 
