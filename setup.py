@@ -21,7 +21,7 @@ setup(name='nerlogparser',
           ],
       },
       install_requires=[
-          'tensorflow==1.4.1',
+          'tensorflow==1.4.0',
           'nltk'
       ],
       include_package_data=True,
